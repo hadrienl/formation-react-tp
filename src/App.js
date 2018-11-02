@@ -7,7 +7,7 @@ import MainFooter from './components/MainFooter';
 import Loading from './components/Loading';
 
 const Home = lazy(() => import('./views/Home'))
-const Demo = lazy(() => import('./views/Demo'))
+const Form = lazy(() => import('./views/Form'))
 
 class App extends Component {
   render() {
@@ -26,11 +26,11 @@ class App extends Component {
               </Suspense>
             </Route>
             <Route
-              path="/demo"
+              path="/form"
               exact>
               <Suspense
                 fallback={<Loading />}>
-                <Demo />
+                <Form />
               </Suspense>
             </Route>
           </Switch>

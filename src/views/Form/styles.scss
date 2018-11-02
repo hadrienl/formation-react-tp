@@ -1,0 +1,40 @@
+.form {
+  &__control {
+    margin: 1rem;
+    display: flex;
+
+    label {
+      display: inline-block;
+      min-width: 10rem;
+      text-align: right;
+      padding-right: 1rem;
+    }
+
+    input, textarea {
+      flex: 1;
+    }
+  }
+
+  .buttons {
+    &__errors {
+      flex: 1;
+      color: red;
+      ul {
+        margin: 0;
+        list-style: none;
+      }
+      li {
+        display: inline;
+        &:not(:first-child)::before {
+          content: ', '
+        }
+        &:last-child::after {
+          content: '.';
+        }
+      }
+    }
+    &__buttons {
+
+    }
+  }
+}
