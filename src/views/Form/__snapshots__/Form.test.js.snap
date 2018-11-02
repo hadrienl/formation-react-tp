@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render 1`] = `
+<form
+  className="form"
+  onSubmit={[Function]}
+>
+  <div
+    className="form__control"
+  >
+    <label
+      htmlFor="title"
+    >
+      Title
+    </label>
+    <input
+      id="title"
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+  </div>
+  <div
+    className="form__control"
+  >
+    <label
+      htmlFor="content"
+    >
+      Content
+    </label>
+    <textarea
+      id="content"
+      onChange={[Function]}
+      value=""
+    />
+  </div>
+  <div
+    className="form__control form__control--buttons"
+  >
+    <div
+      className="buttons__errors"
+    />
+    <div
+      className="buttons__buttons"
+    >
+      <button
+        type="submit"
+      >
+        Ajouter
+      </button>
+    </div>
+  </div>
+</form>
+`;

@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render 1`] = `
+<div
+  className="main"
+>
+  <header
+    className="main__header"
+  >
+    <div
+      className="main-header"
+    >
+      <h1>
+        Formation React
+      </h1>
+      <nav
+        className="main-header__nav"
+      >
+        <a
+          aria-current="page"
+          className="active"
+          href="/"
+          onClick={[Function]}
+          style={Object {}}
+        >
+          Home
+        </a>
+        <a
+          aria-current={null}
+          href="/list"
+          onClick={[Function]}
+        >
+          Liste
+        </a>
+        <a
+          aria-current={null}
+          href="/create"
+          onClick={[Function]}
+        >
+          Nouvel item
+        </a>
+      </nav>
+    </div>
+  </header>
+  <div
+    className="main__content"
+  >
+    <div
+      className="loading"
+    />
+  </div>
+  <footer
+    className="main__footer"
+  >
+    <p>
+      2018 Makina Corpus
+    </p>
+  </footer>
+</div>
+`;

@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render 1`] = `
+<table>
+  <thead>
+    <tr>
+      <td>
+        ID
+      </td>
+      <td>
+        Titre
+      </td>
+      <td>
+        Actions
+      </td>
+    </tr>
+  </thead>
+  <tbody />
+</table>
+`;

@@ -1,8 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import App from './App';
+import { Form } from './';
 
 it('should render', () => {
-  const tree = renderer.create(<App />).toJSON();
+  const tree = renderer.create(<Form match={{ params: { id: '' }}} />).toJSON();
   expect(tree).toMatchSnapshot();
 });
