@@ -35,8 +35,14 @@ class App extends Component {
               </Suspense>
             </Route>
             <Route
-              path="/form"
-              exact>
+              path="/create">
+              <Suspense
+                fallback={<Loading />}>
+                <Form />
+              </Suspense>
+            </Route>
+            <Route
+              path="/edit/:id">
               <Suspense
                 fallback={<Loading />}>
                 <Form />

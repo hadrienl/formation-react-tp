@@ -1,14 +1,54 @@
 import React from 'react';
-import { create } from '../../services/api';
+import { withRouter } from 'react-router-dom';
+
+import { create, get, update } from '../../services/api';
+import Loading from '../../components/Loading';
 
 import './styles.scss';
 
+const initialItem = {
+  id: '',
+  title: '',
+  content: '',
+  errors: [],
+};
+
 export class Form extends React.Component {
   state = {
-    title: '',
-    content: '',
-    errors: [],
+    ...initialItem,
   };
+
+  componentDidMount() {
+    const { match: { params: { id } } } = this.props;
+    
+    if (id) {
+      this.loadItem(id);
+    }
+  }
+
+  componentDidUpdate({ match: { params: { id: prevIdFromRoute } } }) {
+    const { match: { params: { id: idFromRoute } } } = this.props;
+    const { id } = this.state;
+
+    if (prevIdFromRoute !== idFromRoute &&
+        (!id || id !== +idFromRoute)) {
+      this.loadItem(idFromRoute);
+    }
+  }
+
+  async loadItem (id) {
+    try {
+      if (!id) throw new Error('no id');
+
+      this.setState({ loading: true });
+
+      const data = await get(+id);
+
+      this.setState({ ...data, loading: false });
+    } catch (e) {
+      this.setState({ ...initialItem });
+    }
+  }
 
   setTitle = ({ target: { value: title } }) => this.setState({ title });
   setContent = ({ target: { value: content } }) => this.setState({ content });
@@ -16,7 +56,8 @@ export class Form extends React.Component {
   submit = async e => {
     e.preventDefault();
 
-    const { title, content } = this.state;
+    const { history: { push } } = this.props;
+    const { id, title, content } = this.state;
     const errors = [];
 
     this.setState({ errors, submitting: true });
@@ -35,8 +76,12 @@ export class Form extends React.Component {
     }
 
     try {
-      const { id } = await create({ title, content });
-      this.setState({ submitting: false, id });
+      const { id: newId } = id
+        ? await update(id, { title, content })
+        : await create({ title, content });
+      
+      this.setState({ submitting: false, id: newId });
+      push(`/edit/${newId}`);
     } catch (e) {
       errors.push(e.message);
       this.setState({ errors, submitting: false });
@@ -44,47 +89,49 @@ export class Form extends React.Component {
   }
 
   render () {
-    const { title, content, errors, submitting } = this.state;
+    const { loading, id, title, content, errors, submitting } = this.state;
     const { submit, setTitle, setContent } = this;
 
-    return (
-      <form
-        className="form"
-        onSubmit={submit}>
-        <div className="form__control">
-          <label htmlFor="title">Title</label>
-          <input
-            id="title"
-            type="text"
-            value={title}
-            onChange={setTitle} />
-        </div>
-        <div className="form__control">
-          <label htmlFor="content">Content</label>
-          <textarea
-            id="content"
-            value={content}
-            onChange={setContent} />
-        </div>
-        <div className="form__control form__control--buttons">
-          <div className="buttons__errors">
-            {!!errors.length &&
-              <ul>{errors.map(error => (
-                <li key={error}>{error}</li>
-              ))}</ul>
-            }
+    return loading
+      ? <Loading />
+      : (
+        <form
+          className="form"
+          onSubmit={submit}>
+          <div className="form__control">
+            <label htmlFor="title">Title</label>
+            <input
+              id="title"
+              type="text"
+              value={title}
+              onChange={setTitle} />
           </div>
-          <div className="buttons__buttons">
-            <button
-              disabled={submitting}
-              type="submit">
-              Ajouter
-            </button>
+          <div className="form__control">
+            <label htmlFor="content">Content</label>
+            <textarea
+              id="content"
+              value={content}
+              onChange={setContent} />
           </div>
-        </div>
-      </form>
-    )
+          <div className="form__control form__control--buttons">
+            <div className="buttons__errors">
+              {!!errors.length &&
+                <ul>{errors.map(error => (
+                  <li key={error}>{error}</li>
+                ))}</ul>
+              }
+            </div>
+            <div className="buttons__buttons">
+              <button
+                disabled={submitting}
+                type="submit">
+                {id ? 'Modifier' : 'Ajouter'}
+              </button>
+            </div>
+          </div>
+        </form>
+      )
   }
 }
 
-export default Form;
+export default withRouter(Form);

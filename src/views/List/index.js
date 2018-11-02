@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 import { getAll } from '../../services/api';
 
@@ -31,10 +32,15 @@ export class List extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {items.map(item => (
-              <tr>
-                <td>{item.id}</td>
-                <td>{item.title}</td>
+            {items.map(({ id, title }) => (
+              <tr key={id}>
+                <td>{id}</td>
+                <td>
+                  <NavLink
+                    to={`/edit/${id}`}>
+                    {title}
+                  </NavLink>
+                </td>
               </tr>
             ))}
           </tbody>
