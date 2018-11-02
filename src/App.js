@@ -7,6 +7,7 @@ import MainFooter from './components/MainFooter';
 import Loading from './components/Loading';
 
 const Home = lazy(() => import('./views/Home'))
+const List = lazy(() => import('./views/List'))
 const Form = lazy(() => import('./views/Form'))
 
 class App extends Component {
@@ -23,6 +24,14 @@ class App extends Component {
               <Suspense
                 fallback={<Loading />}>
                 <Home />
+              </Suspense>
+            </Route>
+            <Route
+              path="/list"
+              exact>
+              <Suspense
+                fallback={<Loading />}>
+                <List />
               </Suspense>
             </Route>
             <Route
