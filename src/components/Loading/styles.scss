@@ -1,0 +1,26 @@
+.loading {
+  &:after {
+    content: '🕛';
+    display: block;
+    animation: clock .2s infinite;
+    font-size: 10rem;
+    text-align: center;
+    height: 50vh;
+    padding-top: 40%;
+  }
+}
+
+@keyframes clock {
+  0% { content: '🕛'; }
+  9% { content: '🕐'; }
+  18% { content: '🕑'; }
+  27% { content: '🕒'; }
+  36% { content: '🕓'; }
+  45% { content: '🕔'; }
+  54% { content: '🕕'; }
+  63% { content: '🕖'; }
+  72% { content: '🕗'; }
+  81% { content: '🕘'; }
+  90% { content: '🕙'; }
+  100% { content: '🕚'; }
+}

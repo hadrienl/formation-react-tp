@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense, lazy } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import MainLayout from './layouts/Main';
 import MainHeader from './components/MainHeader';
 import MainFooter from './components/MainFooter';
-import Home from './views/Home';
-import Demo from './views/Demo';
+import Loading from './components/Loading';
+
+const Home = lazy(() => import('./views/Home'))
+const Demo = lazy(() => import('./views/Demo'))
 
 class App extends Component {
   render() {
@@ -18,12 +20,18 @@ class App extends Component {
             <Route
               path="/"
               exact>
-              <Home />
+              <Suspense
+                fallback={<Loading />}>
+                <Home />
+              </Suspense>
             </Route>
             <Route
               path="/demo"
               exact>
-              <Demo />
+              <Suspense
+                fallback={<Loading />}>
+                <Demo />
+              </Suspense>
             </Route>
           </Switch>
         </MainLayout>
