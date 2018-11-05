@@ -1,39 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import { remove } from '../../services/api';
+import { removeItem } from '../../services/store/actions';
 
 export class Item extends React.Component {
   static propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
-    onRemove: PropTypes.func,
   };
-
-  static defaultProps = {
-    onRemove() {},
-  };
-
-  state = {};
 
   remove = async () => {
-    const { id, onRemove } = this.props;
-
-    this.setState({ removing: true });
-
-    try {
-      await remove(id);
-      this.setState({ removing: false });
-      onRemove(id);
-    } catch (e) {
-      this.setState({ removing: false });
-    }
+    const { id, removeItem } = this.props;
+    removeItem(id);
   }
 
   render () {
     const { id, title } = this.props;
-    const { removing } = this.state;
     const { remove } = this;
 
     return (
@@ -46,8 +30,7 @@ export class Item extends React.Component {
           </NavLink>
         </td>
         <td>
-          <button 
-            disabled={removing}
+          <button
             type="button"
             onClick={remove}>Supprimer</button>
         </td>
@@ -56,4 +39,8 @@ export class Item extends React.Component {
   }
 }
 
-export default Item;
+const mapDispatchToProps = dispatch => ({
+  removeItem: id => dispatch(removeItem(id)),
+});
+
+export default connect(null, mapDispatchToProps)(Item);

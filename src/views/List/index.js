@@ -1,34 +1,19 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-import { getAll } from '../../services/api';
+import { getAllItems } from '../../services/store/actions';
 
 import Loading from '../../components/Loading';
 import Item from './Item';
 export class List extends React.Component {
-  state = {
-    items: [],
-  };
-
-  async componentDidMount() {
-    try {
-      const items = await getAll();
-      this.setState({ items });
-    } catch (e) {}
-  }
-
-  onRemove = id => {
-    const { items } = this.state;
-    const newItems = [...items];
-    const index = newItems.findIndex(({ id: itemId }) => itemId === id);
-    if (index === -1) return;
-    newItems.splice(index, 1);
-    this.setState({ items: newItems });
+  componentDidMount() {
+    this.props.getAll();
   }
 
   render () {
-    const { loading, items } = this.state;
+    const { loading, items } = this.props;
     const { onRemove } = this;
-    return loading
+    return (loading && !items.length)
       ? (
         <Loading />
       ) : (
@@ -53,5 +38,13 @@ export class List extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  items: state.items,
+  loading: state.loading,
+});
 
-export default List;
+const mapDispatchToProps = dispatch => ({
+  getAll: () => dispatch(getAllItems()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(List);
