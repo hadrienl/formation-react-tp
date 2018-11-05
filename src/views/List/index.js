@@ -1,33 +1,25 @@
 import React from 'react';
 
-import { getAll } from '../../services/api';
+import { context } from '../../services/ItemsProvider';
 
 import Loading from '../../components/Loading';
 import Item from './Item';
 export class List extends React.Component {
+  static contextType = context;
+
   state = {
     items: [],
   };
 
-  async componentDidMount() {
-    try {
-      const items = await getAll();
-      this.setState({ items });
-    } catch (e) {}
-  }
-
-  onRemove = id => {
-    const { items } = this.state;
-    const newItems = [...items];
-    const index = newItems.findIndex(({ id: itemId }) => itemId === id);
-    if (index === -1) return;
-    newItems.splice(index, 1);
-    this.setState({ items: newItems });
+  componentDidMount() {
+    const { getAll } = this.context;
+    getAll();
   }
 
   render () {
-    const { loading, items } = this.state;
-    const { onRemove } = this;
+    console.log(this.context)
+    const { loading, items } = this.context;
+
     return loading
       ? (
         <Loading />
@@ -44,8 +36,7 @@ export class List extends React.Component {
             {items.map(item => (
               <Item
                 key={item.id}
-                {...item}
-                onRemove={onRemove} />
+                {...item} />
             ))}
           </tbody>
         </table>
