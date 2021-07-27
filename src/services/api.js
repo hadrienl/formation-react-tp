@@ -33,7 +33,7 @@ function _create (data) {
 }
 
 function _update (id, data) {
-  const prevDataIndex = DATA.findIndex(item => item.id === id);;
+  const prevDataIndex = DATA.findIndex(item => item.id === +id);
 
   if (prevDataIndex === -1) throw new Error('not found');
 
@@ -47,7 +47,7 @@ function _update (id, data) {
 }
 
 function _delete (id) {
-  const prevDataIndex = DATA.findIndex(item => item.id === id);;
+  const prevDataIndex = DATA.findIndex(item => item.id === +id);
 
   if (prevDataIndex === -1) throw new Error('not found');
 
@@ -57,7 +57,7 @@ function _delete (id) {
 }
 
 function _get (id) {
-  const item = DATA.find(item => item.id === id);
+  const item = DATA.find(item => item.id === +id);
 
   if (!item) throw new Error('not found');
 
