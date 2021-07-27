@@ -1,5 +1,6 @@
 const DATA = [];
 const TIMEOUT = 1000;
+let lastId = 0;
 
 function fakeRequest(fn, ms) {
   return new Promise((resolve, reject) => setTimeout(async () => {
@@ -22,7 +23,7 @@ function _saveData () {
 }
 
 function _create (data) {
-  const id = DATA.length;
+  const id = ++lastId;
   const newData = {
     ...data,
     id,
